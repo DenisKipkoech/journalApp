@@ -15,6 +15,7 @@ import android.view.MenuItem;
 
 import com.example.denis.journalapp.Adapter.JournalAdapter;
 import com.example.denis.journalapp.Database.AppDatabase;
+import com.example.denis.journalapp.ViewModel.AppExecutors;
 
 public class MainActivity extends AppCompatActivity implements JournalAdapter.ItemClickListener{
     private static final String TAG = MainActivity.class.getSimpleName();
@@ -45,9 +46,14 @@ public class MainActivity extends AppCompatActivity implements JournalAdapter.It
 
             @Override
             public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
+                AppExecutors.getInstance().diskIO().execute(new Runnable() {
+                    @Override
+                    public void run() {
 
+                    }
+                });
             }
-        });
+        }).attachToRecyclerView(recyclerView);
 
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
@@ -59,6 +65,8 @@ public class MainActivity extends AppCompatActivity implements JournalAdapter.It
                 startActivity(intent);
             }
         });
+
+        database = AppDatabase.getsInstance(getApplicationContext());
     }
 
     @Override
