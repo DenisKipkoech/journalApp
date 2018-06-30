@@ -2,9 +2,12 @@
     <string name="app_name">JournalApp</string>
     <string name="action_settings">Settings</string>
 
-    <!--Add activity-->
-    <string name="journal_hint">Write down what you are feeling</string>
+    <!--activity add-->
+    <string name="journal_hint">Write down what\'s on your mind</string>
 
     <!--add menu-->
     <string name="action_menu_add">Add</string>
+
+    <!--content main-->
+    <string name="nothing">Nothing to display. Write some thoughts down</string>
 </resources>

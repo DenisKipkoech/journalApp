@@ -2,6 +2,7 @@ package com.example.denis.journalapp.Database;
 
 import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.PrimaryKey;
 
 import java.util.Date;
@@ -17,6 +18,7 @@ public class JournalEntry {
     @ColumnInfo(name = "entry_date")
     private Date dateOfEntry;
 
+    @Ignore
     public JournalEntry(int id, String thoughts, Date dateOfEntry) {
         this.id = id;
         this.thoughts = thoughts;
