@@ -19,7 +19,7 @@ import java.util.Locale;
  */
 
 public class JournalAdapter extends RecyclerView.Adapter<JournalAdapter.JournalViewHolder>{
-    private List<JournalEntry> mjournalEntries;
+    private List<JournalEntry> journalEntries;
     final private ItemClickListener mItemclickListener;
     private static final String DATE_FORMAT = "dd/MM/yyy";
 
@@ -40,8 +40,8 @@ public class JournalAdapter extends RecyclerView.Adapter<JournalAdapter.JournalV
 
     @Override
     public void onBindViewHolder(JournalViewHolder holder, int position) {
-        JournalEntry journalEntry = mjournalEntries.get(position);
-        String journalDesc = journalEntry.getThoughts();
+        JournalEntry journalEntry = journalEntries.get(position);
+        String journalDesc = journalEntry.getDescription();
         String journalDate = dateFormat.format(journalEntry.getDateOfEntry());
 
         holder.journalView.setText(journalDesc);
@@ -52,18 +52,18 @@ public class JournalAdapter extends RecyclerView.Adapter<JournalAdapter.JournalV
 
     @Override
     public int getItemCount() {
-        if (mjournalEntries != null){
-            return mjournalEntries.size();
+        if (journalEntries != null){
+            return journalEntries.size();
         }
         return 0;
     }
 
-    public List<JournalEntry> getMjournalEntries(){
-        return mjournalEntries;
+    public List<JournalEntry> getJournalEntries(){
+        return journalEntries;
     }
 
     public void setJournals(List<JournalEntry> journalEntries){
-        mjournalEntries = journalEntries;
+        this.journalEntries = journalEntries;
         notifyDataSetChanged();
     }
 
@@ -84,7 +84,7 @@ public class JournalAdapter extends RecyclerView.Adapter<JournalAdapter.JournalV
 
         @Override
         public void onClick(View v) {
-            int elementId = mjournalEntries.get(getAdapterPosition()).getId();
+            int elementId = journalEntries.get(getAdapterPosition()).getId();
             mItemclickListener.onItemClickListener(elementId);
         }
     }

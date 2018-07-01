@@ -9,5 +9,5 @@
     <string name="action_menu_add">Add</string>
 
     <!--content main-->
-    <string name="nothing">Nothing to display. Write some thoughts down</string>
+    <string name="nothing">Nothing to display. Write some description down</string>
 </resources>

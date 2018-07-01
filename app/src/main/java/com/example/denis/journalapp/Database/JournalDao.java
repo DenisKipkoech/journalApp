@@ -22,7 +22,7 @@ public interface JournalDao {
     void insertJournal(JournalEntry journalEntry);
 
     @Update(onConflict = OnConflictStrategy.REPLACE)
-    void updateTask(JournalEntry journalEntry);
+    void updateJournal(JournalEntry journalEntry);
 
     @Delete
     void deleteJournal(JournalEntry journalEntry);

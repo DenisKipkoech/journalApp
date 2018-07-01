@@ -1,9 +1,11 @@
 package com.example.denis.journalapp;
 
+import android.arch.lifecycle.Observer;
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -12,10 +14,15 @@ import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
 
 import com.example.denis.journalapp.Adapter.JournalAdapter;
 import com.example.denis.journalapp.Database.AppDatabase;
+import com.example.denis.journalapp.Database.JournalEntry;
 import com.example.denis.journalapp.ViewModel.AppExecutors;
+import com.example.denis.journalapp.ViewModel.MainViewModel;
+
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements JournalAdapter.ItemClickListener{
     private static final String TAG = MainActivity.class.getSimpleName();
@@ -23,6 +30,7 @@ public class MainActivity extends AppCompatActivity implements JournalAdapter.It
     private RecyclerView recyclerView;
     private AppDatabase database;
     private JournalAdapter journalAdapter;
+    private TextView nothing;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,9 +41,15 @@ public class MainActivity extends AppCompatActivity implements JournalAdapter.It
 
         recyclerView = findViewById(R.id.journal_recycler);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        nothing = findViewById(R.id.tv_nothing);
+        nothing.setVisibility(View.INVISIBLE);
 
         journalAdapter = new JournalAdapter(this, this);
         recyclerView.setAdapter(journalAdapter);
+
+        if (journalAdapter.getItemCount() == 0 ){
+            nothing.setVisibility(View.VISIBLE);
+        }
 
         new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0,
                 ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
@@ -45,11 +59,13 @@ public class MainActivity extends AppCompatActivity implements JournalAdapter.It
             }
 
             @Override
-            public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
+            public void onSwiped(final RecyclerView.ViewHolder viewHolder, int direction) {
                 AppExecutors.getInstance().diskIO().execute(new Runnable() {
                     @Override
                     public void run() {
-
+                        int position = viewHolder.getAdapterPosition();
+                        List<JournalEntry> journals = journalAdapter.getJournalEntries();
+                        database.journalDao().deleteJournal(journals.get(position));
                     }
                 });
             }
@@ -67,6 +83,7 @@ public class MainActivity extends AppCompatActivity implements JournalAdapter.It
         });
 
         database = AppDatabase.getsInstance(getApplicationContext());
+        setUpViewModel();
     }
 
     @Override
@@ -91,8 +108,20 @@ public class MainActivity extends AppCompatActivity implements JournalAdapter.It
         return super.onOptionsItemSelected(item);
     }
 
+    public void setUpViewModel(){
+        MainViewModel viewModel = ViewModelProviders.of(this).get(MainViewModel.class);
+        viewModel.getJournals().observe(this, new Observer<List<JournalEntry>>() {
+            @Override
+            public void onChanged(@Nullable List<JournalEntry> journalEntries) {
+                journalAdapter.setJournals(journalEntries);
+            }
+        });
+    }
+
     @Override
     public void onItemClickListener(int itemId) {
-
+        Intent intent = new Intent(MainActivity.this, AddJournalActivity.class);
+        intent.putExtra(AddJournalActivity.EXTRA_ID, itemId);
+        startActivity(intent);
     }
 }

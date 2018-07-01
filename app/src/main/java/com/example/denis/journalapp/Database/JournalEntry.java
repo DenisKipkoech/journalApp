@@ -14,19 +14,19 @@ import java.util.Date;
 public class JournalEntry {
     @PrimaryKey(autoGenerate = true)
     private int id;
-    private String thoughts;
+    private String description;
     @ColumnInfo(name = "entry_date")
     private Date dateOfEntry;
 
     @Ignore
-    public JournalEntry(int id, String thoughts, Date dateOfEntry) {
+    public JournalEntry(int id, String description, Date dateOfEntry) {
         this.id = id;
-        this.thoughts = thoughts;
+        this.description = description;
         this.dateOfEntry = dateOfEntry;
     }
 
-    public JournalEntry(String thoughts, Date dateOfEntry) {
-        this.thoughts = thoughts;
+    public JournalEntry(String description, Date dateOfEntry) {
+        this.description = description;
         this.dateOfEntry = dateOfEntry;
     }
 
@@ -38,12 +38,12 @@ public class JournalEntry {
         this.id = id;
     }
 
-    public String getThoughts() {
-        return thoughts;
+    public String getDescription() {
+        return description;
     }
 
-    public void setThoughts(String thoughts) {
-        this.thoughts = thoughts;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public Date getDateOfEntry() {
