@@ -24,7 +24,7 @@
     </style>
 
     <style name="Description" parent="TextDisplay">
-        <item name="textColor">@color/secondary_text</item>
+        <item name="android:textColor">@color/secondary_text</item>
     </style>
 
     <style name="dateStyle" parent="TextDisplay">
