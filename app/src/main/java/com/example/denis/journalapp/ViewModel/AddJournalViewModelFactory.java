@@ -3,7 +3,7 @@ package com.example.denis.journalapp.ViewModel;
 import android.arch.lifecycle.ViewModel;
 import android.arch.lifecycle.ViewModelProvider;
 
-import com.example.denis.journalapp.Database.AppDatabase;
+import com.example.denis.journalapp.Data.AppDatabase;
 
 /**
  * Created by denis on 30/06/18.

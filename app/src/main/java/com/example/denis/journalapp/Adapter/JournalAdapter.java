@@ -7,7 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.example.denis.journalapp.Database.JournalEntry;
+import com.example.denis.journalapp.Data.JournalEntry;
 import com.example.denis.journalapp.R;
 
 import java.text.SimpleDateFormat;

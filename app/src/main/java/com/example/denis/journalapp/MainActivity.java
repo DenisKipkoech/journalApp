@@ -17,8 +17,8 @@ import android.view.MenuItem;
 import android.widget.TextView;
 
 import com.example.denis.journalapp.Adapter.JournalAdapter;
-import com.example.denis.journalapp.Database.AppDatabase;
-import com.example.denis.journalapp.Database.JournalEntry;
+import com.example.denis.journalapp.Data.AppDatabase;
+import com.example.denis.journalapp.Data.JournalEntry;
 import com.example.denis.journalapp.ViewModel.AppExecutors;
 import com.example.denis.journalapp.ViewModel.MainViewModel;
 
@@ -30,7 +30,7 @@ public class MainActivity extends AppCompatActivity implements JournalAdapter.It
     private RecyclerView recyclerView;
     private AppDatabase database;
     private JournalAdapter journalAdapter;
-    private TextView nothing;
+    private TextView no_journal_tv;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,15 +41,12 @@ public class MainActivity extends AppCompatActivity implements JournalAdapter.It
 
         recyclerView = findViewById(R.id.journal_recycler);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        nothing = findViewById(R.id.tv_nothing);
-        nothing.setVisibility(View.INVISIBLE);
+        no_journal_tv = findViewById(R.id.tv_nothing);
+        no_journal_tv.setVisibility(View.INVISIBLE);
 
         journalAdapter = new JournalAdapter(this, this);
         recyclerView.setAdapter(journalAdapter);
 
-        if (journalAdapter.getItemCount() == 0 ){
-            nothing.setVisibility(View.VISIBLE);
-        }
 
         new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0,
                 ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
@@ -86,6 +83,7 @@ public class MainActivity extends AppCompatActivity implements JournalAdapter.It
         setUpViewModel();
     }
 
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -114,6 +112,11 @@ public class MainActivity extends AppCompatActivity implements JournalAdapter.It
             @Override
             public void onChanged(@Nullable List<JournalEntry> journalEntries) {
                 journalAdapter.setJournals(journalEntries);
+                if (journalEntries != null && journalEntries.isEmpty()) {
+                    no_journal_tv.setVisibility(View.VISIBLE);
+                }else{
+                    no_journal_tv.setVisibility(View.INVISIBLE);
+                }
             }
         });
     }

@@ -1,4 +1,4 @@
-package com.example.denis.journalapp.Database;
+package com.example.denis.journalapp.Data;
 
 import android.arch.lifecycle.LiveData;
 import android.arch.persistence.room.Dao;

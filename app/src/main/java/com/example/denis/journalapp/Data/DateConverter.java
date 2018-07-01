@@ -1,7 +1,6 @@
-package com.example.denis.journalapp.Database;
+package com.example.denis.journalapp.Data;
 
 import android.arch.persistence.room.TypeConverter;
-import android.arch.persistence.room.TypeConverters;
 
 import java.util.Date;
 

@@ -5,8 +5,8 @@ import android.arch.lifecycle.AndroidViewModel;
 import android.arch.lifecycle.LiveData;
 import android.support.annotation.NonNull;
 
-import com.example.denis.journalapp.Database.AppDatabase;
-import com.example.denis.journalapp.Database.JournalEntry;
+import com.example.denis.journalapp.Data.AppDatabase;
+import com.example.denis.journalapp.Data.JournalEntry;
 
 import java.util.List;
 

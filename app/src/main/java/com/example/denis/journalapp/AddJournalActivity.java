@@ -11,8 +11,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
 
-import com.example.denis.journalapp.Database.AppDatabase;
-import com.example.denis.journalapp.Database.JournalEntry;
+import com.example.denis.journalapp.Data.AppDatabase;
+import com.example.denis.journalapp.Data.JournalEntry;
 import com.example.denis.journalapp.ViewModel.AddJournalViewModel;
 import com.example.denis.journalapp.ViewModel.AddJournalViewModelFactory;
 import com.example.denis.journalapp.ViewModel.AppExecutors;
@@ -108,5 +108,8 @@ public class AddJournalActivity extends AppCompatActivity {
 
             }
         });
+
+        Intent intent = new Intent(AddJournalActivity.this, MainActivity.class);
+        startActivity(intent);
     }
 }

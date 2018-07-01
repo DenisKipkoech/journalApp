@@ -3,8 +3,8 @@ package com.example.denis.journalapp.ViewModel;
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.ViewModel;
 
-import com.example.denis.journalapp.Database.AppDatabase;
-import com.example.denis.journalapp.Database.JournalEntry;
+import com.example.denis.journalapp.Data.AppDatabase;
+import com.example.denis.journalapp.Data.JournalEntry;
 
 /**
  * Created by denis on 30/06/18.
