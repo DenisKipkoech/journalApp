@@ -4,6 +4,7 @@ import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
@@ -11,6 +12,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.support.v7.widget.helper.ItemTouchHelper;
+import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -21,16 +23,20 @@ import com.example.denis.journalapp.Data.AppDatabase;
 import com.example.denis.journalapp.Data.JournalEntry;
 import com.example.denis.journalapp.ViewModel.AppExecutors;
 import com.example.denis.journalapp.ViewModel.MainViewModel;
+import com.google.android.gms.auth.api.Auth;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
 
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements JournalAdapter.ItemClickListener{
-    private static final String TAG = MainActivity.class.getSimpleName();
 
     private RecyclerView recyclerView;
     private AppDatabase database;
     private JournalAdapter journalAdapter;
     private TextView no_journal_tv;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +52,7 @@ public class MainActivity extends AppCompatActivity implements JournalAdapter.It
 
         journalAdapter = new JournalAdapter(this, this);
         recyclerView.setAdapter(journalAdapter);
+
 
 
         new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0,
@@ -127,4 +134,6 @@ public class MainActivity extends AppCompatActivity implements JournalAdapter.It
         intent.putExtra(AddJournalActivity.EXTRA_ID, itemId);
         startActivity(intent);
     }
+
+
 }

@@ -5,8 +5,10 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
+import com.example.denis.journalapp.Data.JournalPreferences;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
@@ -20,6 +22,10 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
     private TextView skipReg;
     private GoogleApiClient apiClient;
     private static final int REQ_CODE = 200;
+    private boolean isSignedIn;
+
+
+    public static final String INSTANCE_ID = "instance_id";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,21 +35,37 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         signInButton = findViewById(R.id.btn_login);
         skipReg = findViewById(R.id.tv_skip);
 
-        GoogleSignInOptions signInOptions = new GoogleSignInOptions.Builder(
-                GoogleSignInOptions.DEFAULT_SIGN_IN).requestEmail().build();
 
-        apiClient = new GoogleApiClient.Builder(this)
-                .enableAutoManage(this, this)
-                .addApi(Auth.GOOGLE_SIGN_IN_API, signInOptions)
-                .build();
+        isSignedIn = JournalPreferences.checkIfSignedIn(this);
+        if (!isSignedIn) {
 
-        signInButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = Auth.GoogleSignInApi.getSignInIntent(apiClient);
-                startActivityForResult(intent, REQ_CODE);
-            }
-        });
+            GoogleSignInOptions signInOptions = new GoogleSignInOptions.Builder(
+                    GoogleSignInOptions.DEFAULT_SIGN_IN).requestEmail().build();
+
+            apiClient = new GoogleApiClient.Builder(this)
+                    .enableAutoManage(this, this)
+                    .addApi(Auth.GOOGLE_SIGN_IN_API, signInOptions)
+                    .build();
+
+            signInButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = Auth.GoogleSignInApi.getSignInIntent(apiClient);
+                    startActivityForResult(intent, REQ_CODE);
+                }
+            });
+        }
+
+           Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+           startActivity(intent);
+           skipReg.setOnClickListener(new View.OnClickListener() {
+               @Override
+               public void onClick(View v) {
+                   Intent intent = new Intent(LoginActivity.this,
+                           MainActivity.class);
+                   startActivity(intent);
+               }
+           });
     }
 
     @Override
@@ -68,7 +90,10 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         String name = signInAccount.getDisplayName();
         String email = signInAccount.getEmail();
 
+        JournalPreferences.setUserDetails(this, name, email, true);
         Intent intent = new Intent(LoginActivity.this, MainActivity.class);
         startActivity(intent);
     }
+
+
 }
